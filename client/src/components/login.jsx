@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-function Loginform(){
+import {useNavigate} from 'react-router-dom';
+function Loginform({setAuthentication}){
+   const navigate = useNavigate();
     const [email,setemail] = useState('');
     const [password,setpassword] = useState(''); 
     const [error,seterror]=useState('');
@@ -25,8 +27,9 @@ function Loginform(){
             setpassword('');
             seterror('');
             localStorage.setItem('token', response.data.token);
+            // setAuthentication(true);
             console.log(response.data.token);// Response from the backend
-            // 
+            navigate('/');
             // Optionally, you can redirect the user to a different page upon successful signup
           } catch (error) {
             seterror(error.response.data.message);

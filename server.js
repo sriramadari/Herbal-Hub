@@ -76,6 +76,10 @@ if (existingUser) {
   res.status(500).json({ message: 'Internal server error' });
 }
 })
+
+// app.post('/search',cors(),async(req,res)=>{
+
+// })
 // Start the server
 
 app.listen(port, () => {

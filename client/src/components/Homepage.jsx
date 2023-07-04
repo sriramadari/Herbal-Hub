@@ -1,17 +1,18 @@
-import React from 'react';
+import React,{useState} from 'react';
 import {Link} from 'react-router-dom';
 // Example data structure for featured or new arrival herbal plants
   
   const Homepage = () => {
+    const token=!!localStorage.getItem('token');
     return (
       <div>
-        <header> <nav>
+        <header><nav>
         <ul className="App-header">
           <li>
             <Link to="/">Home</Link>
           </li>
             <li>
-              <Link to="/login">SignUp /Login</Link>
+             { token?(<Link to="/logout">Logout</Link>):(<Link to="/login">SignUp/Login</Link>)}
             </li>
           <li>
             <Link to="/about">About Us</Link>
@@ -28,7 +29,7 @@ import {Link} from 'react-router-dom';
 At Herbal Hub, we believe in the power of nature to enhance our well-being and bring harmony to our lives. We offer a wide selection of premium quality herbal plants that are carefully sourced and nurtured to ensure their vitality and effectiveness.
 
 Discover the wonders of nature with our diverse range of herbal plants. Whether you're looking for medicinal herbs to support your health, culinary herbs to add flavor to your dishes, or fragrant plants to create a soothing ambiance, we have something for everyone.</p>
-            <Link to="/products">Shop Now</Link>
+{ token?(<Link to="/products">Shop Now</Link>):(<Link to="/login">Shop Now</Link>)}
           </section>
           {/* ... */}
         </main>
