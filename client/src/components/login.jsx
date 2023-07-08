@@ -28,6 +28,7 @@ function Loginform({setAuthentication}){
             seterror('');
             localStorage.setItem('token', response.data.token);
             // setAuthentication(true);
+            console.log(response.data.message);
             console.log(response.data.token);// Response from the backend
             navigate('/');
             // Optionally, you can redirect the user to a different page upon successful signup

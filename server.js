@@ -25,11 +25,18 @@ app.use(cors());
 const userSchema =  new mongoose.Schema ({
   email: String,
   username:String,
-  password: String
+  password: String,
+  cart:[
+    {
+      id:Number,
+     name:String,
+      price:String,
+      quantity:Number
+    }
+  ]
 });
 
 const User = mongoose.model("User",userSchema);
-// Routes
 app.get('/',cors(), (req, res) => {
   res.send('Hello, world!');
 });
@@ -77,11 +84,92 @@ if (existingUser) {
 }
 })
 
-// app.post('/search',cors(),async(req,res)=>{
+app.post("/products/cart", async (req, res) => {
+  try {
+    const { cartItems, userId } = req.body;
 
-// })
+    const user = await User.findOne({ _id: userId });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // cartItems.forEach(async (cartItem) => {
+      // const filter = {
+      //   _id: userId,
+      //   cart: {
+      //     $elemMatch: { id: cartItems.id }
+      //   }
+      // };
+      
+      // const update = {
+      //   $inc: { "cart.$.quantity": cartItems.quantity }
+      // };
+      
+      // const result = await User.updateOne(filter, update);
+      
+      // if (result.nModified === 0) {
+      //   // If no matching cart item found, add it to the cart
+       
+      // }
+      user.cart.push(...cartItems);
+      await user.save();
+    // });
+    res.json({ message: 'Cart items updated successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred' });
+  }
+});
+
+
+app.get("/products/cart",cors(),async(req,res)=>{
+  try{
+    const {ID}  = req.query;
+    const user = await User.findOne({_id:ID});
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Retrieve the cart data from the user document
+    const cartData = user.cart;
+
+    // Send the cart data in the response
+    res.json({ cartItems: cartData });
+  } catch (error) {
+    // Handle any errors
+    res.status(500).json({ error: 'An error occurred' });
+  }
+})
 // Start the server
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
+
+// const existingCartItem = user.cart.find((item) => item.id === cartItems.id);
+
+    // // if (existingCartItem) {
+    //   existingCartItem.quantity += cartItems.quantity;
+    //   const newQuantity=existingCartItem.quantity;
+      // User.findOneAndUpdate(
+      //   { 'cart.id': cartItems.id ,'_id':userId},
+      //   { $set: { 'cart.$.quantity': 3 } },
+      //   { new: true },
+      //   (err, updatedUser) => {
+      //     if (err) {
+      //       console.error('Error updating cart item quantity:', err);
+      //       // Handle the error appropriately
+      //     } else {
+      //       if (!updatedUser) {
+      //         console.log('Cart item not found');
+      //         // Handle the case when the cart item is not found
+      //       } else {
+      //         console.log('Cart item quantity updated successfully');
+      //         // Handle the success case
+      //       }
+      //     }
+      //   }
+      // );
+    // } else {
+    //   // Add the new cart item if it doesn't exist

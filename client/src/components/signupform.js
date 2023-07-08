@@ -30,7 +30,6 @@ function Signupform(){
   
         console.log(response.data); // Response from the backend
         if(response){navigate('/login');}
-        // Optionally, you can redirect the user to a different page upon successful signup
       } catch (error) {
         setError(error.response.data.message);
       }

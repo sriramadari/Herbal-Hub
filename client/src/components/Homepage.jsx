@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 // Example data structure for featured or new arrival herbal plants
   
   const Homepage = () => {
-    const token=!!localStorage.getItem('token');
+    const token=!!(localStorage.getItem('token'));
     return (
       <div>
         <header><nav>

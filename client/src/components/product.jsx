@@ -8,7 +8,7 @@ function Product({plants}) {
     }
     const { name,image, description } = product;
     return (
-      <div style={{ padding: 20 }}>
+      <div >
 
         <h3>{name}</h3>
         <img src={image} alt="plant img"></img>
