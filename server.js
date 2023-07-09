@@ -25,18 +25,20 @@ app.use(cors());
 const userSchema =  new mongoose.Schema ({
   email: String,
   username:String,
-  password: String,
-  cart:[
-    {
-      id:Number,
-     name:String,
-      price:String,
-      quantity:Number
-    }
-  ]
+  password: String
 });
 
 const User = mongoose.model("User",userSchema);
+const cartItemSchema = new mongoose.Schema({
+  id: String,
+  name: String,
+  price: Number,
+  quantity: Number,
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // Add a reference to the User schema
+});
+
+const CartItem = mongoose.model("CartItem", cartItemSchema);
+
 app.get('/',cors(), (req, res) => {
   res.send('Hello, world!');
 });
@@ -85,60 +87,54 @@ if (existingUser) {
 })
 
 app.post("/products/cart", async (req, res) => {
-  try {
-    const { cartItems, userId } = req.body;
+  const { cartItems, userId } = req.body;
 
-    const user = await User.findOne({ _id: userId });
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+ 
+  try {
+    // Loop through the cartItems array
+    for (const item of cartItems) {
+      const existingCartItem = await CartItem.findOne({ user: userId, id: item.id });
+
+      if (existingCartItem) {
+        // Update quantity for existing cart item
+        existingCartItem.quantity+= item.quantity;
+        await existingCartItem.save();
+      } else {
+        // Create a new cart item
+        const newCartItem = new CartItem({
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity,
+          user: userId,
+        });
+        await newCartItem.save();
+      }
     }
 
-    // cartItems.forEach(async (cartItem) => {
-      // const filter = {
-      //   _id: userId,
-      //   cart: {
-      //     $elemMatch: { id: cartItems.id }
-      //   }
-      // };
-      
-      // const update = {
-      //   $inc: { "cart.$.quantity": cartItems.quantity }
-      // };
-      
-      // const result = await User.updateOne(filter, update);
-      
-      // if (result.nModified === 0) {
-      //   // If no matching cart item found, add it to the cart
-       
-      // }
-      user.cart.push(...cartItems);
-      await user.save();
-    // });
-    res.json({ message: 'Cart items updated successfully' });
+    return res.json({ message: "Cart items updated successfully" });
   } catch (error) {
-    res.status(500).json({ error: 'An error occurred' });
+    console.error("Error updating cart items:", error);
+    return res.status(500).json({ message: "Failed to update cart items" });
   }
 });
 
 
 app.get("/products/cart",cors(),async(req,res)=>{
-  try{
+  
     const {ID}  = req.query;
-    const user = await User.findOne({_id:ID});
-
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+    try {
+      // Retrieve the cart items for the user
+      const userId = new mongoose.Types.ObjectId(ID);
+      const cartItems = await CartItem.find({ user: userId });
+      if (!cartItems) {
+        return res.status(404).json({ message: "Cart items not found" });
+      }
+      return res.json({cartItems});
+    } catch (error) {
+      console.error("Error retrieving cart items:", error);
+      return res.status(500).json({ message: "Failed to retrieve cart items" });
     }
-
-    // Retrieve the cart data from the user document
-    const cartData = user.cart;
-
-    // Send the cart data in the response
-    res.json({ cartItems: cartData });
-  } catch (error) {
-    // Handle any errors
-    res.status(500).json({ error: 'An error occurred' });
-  }
 })
 // Start the server
 

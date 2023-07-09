@@ -9,8 +9,22 @@ const Listproduct = ({ id, name, price, url }) => {
   const token = localStorage.getItem("token");
   const decodedToken = jwt_decode(token);
   const userId = decodedToken.userId;
+  const [count, setCount] = useState(0);
 
+  const incQuantity = () => {
+    setCount(count + 1);
+  };
+
+  const decQuantity = () => {
+    if (count > 0) {
+      setCount(count - 1);
+    }
+  };
     const addToCart = (id) => {
+      if (count === 0) {
+        alert("Please select at least one product.");
+        return;
+      }
         const selectedProduct = Object.entries(plantsData).find(
           ([productId]) => productId === id
         );
@@ -20,7 +34,7 @@ const Listproduct = ({ id, name, price, url }) => {
             id: selectedProduct[1].id,
             name: selectedProduct[1].name,
             price: selectedProduct[1].price,
-            quantity: 1,
+            quantity: count,
           };
     
           const existingCartItem = cartItems.find(
@@ -28,7 +42,7 @@ const Listproduct = ({ id, name, price, url }) => {
           );
     
           if (existingCartItem) {
-            existingCartItem.quantity += 1;
+            existingCartItem.quantity += count;
             setCartItems([...cartItems]);
           } else {
             setCartItems([...cartItems, newCartItem]);
@@ -52,17 +66,7 @@ const Listproduct = ({ id, name, price, url }) => {
       useEffect(() => {
         console.log(cartItems);
       }, [cartItems]);
-  const [count, setCount] = useState(0);
-
-  const incQuantity = () => {
-    setCount(count + 1);
-  };
-
-  const decQuantity = () => {
-    if (count > 0) {
-      setCount(count - 1);
-    }
-  };
+ 
   
   return (
     <li className="product-card">
