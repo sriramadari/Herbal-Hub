@@ -46,7 +46,7 @@ app.post("/login",cors(),async (req,res)=>{
  try{ 
   const userfound = await User.findOne({email,password});
   if(userfound){ 
-    const token = jwt.sign({ userId: userfound._id}, secret);
+    const token = jwt.sign({ userId: userfound._id,name:userfound.username}, secret);
    return res.status(201).json({ message: 'User login successfully' ,token});
 }
 return res.status(201).json({ message: 'User Not found' });

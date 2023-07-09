@@ -1,100 +1,118 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import jwt_decode from "jwt-decode";
-function ProductLists({ plants }) {
-  const [cartItems, setCartItems] = useState([]);
+// import axios from "axios";
+// import jwt_decode from "jwt-decode";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import LogoutIcon from "@mui/icons-material/Logout";
+import "./productlist.css";
+import Listproduct from "./listproduct";
+import plantsData from "./plantsdata";
+function ProductLists() {
+  // const [cartItems, setCartItems] = useState([]);
   const token = localStorage.getItem("token");
-  const decodedToken = jwt_decode(token);
-  const userId = decodedToken.userId;
-  const [count,setcount]=useState(0);
-  const incquantity=()=>{
-    setcount(count+1);
-  }
-  const decquantity=()=>{
-    setcount(count-1);
-  }
-  const addToCart = (id) => {
-    const selectedProduct = Object.entries(plants).find(
-      ([productId]) => productId === id
-    );
+  // const decodedToken = jwt_decode(token);
+  // const userId = decodedToken.userId;
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  // const [count, setCount] = useState(0);
+  // const incQuantity = () => {
+  //   setCount(count + 1);
+  // };
 
-    if (selectedProduct) {
-      const newCartItem = {
-        id: selectedProduct[1].id,
-        name: selectedProduct[1].name,
-        price: selectedProduct[1].price,
-        quantity: 1,
-      };
-      console.log(selectedProduct);
-      console.log(userId);
-      const existingCartItem = cartItems.find(
-        (item) => item.id === newCartItem.id
+  // const decQuantity = () => {
+  //   setCount(count - 1);
+  // };
+  
+
+  const handleSearch = (event) => {
+    event.preventDefault(); // Prevent the form from submitting
+    // Perform search logic here
+    const query = searchQuery.trim().toLowerCase();
+
+    if (query === "") {
+      setSearchResults([]);
+    } else {
+      const filteredPlants = Object.entries(plantsData).filter(([id, plant]) =>
+        plant.name.toLowerCase().includes(query)
       );
-
-      if (existingCartItem) {
-        // Update the quantity of the existing cart item
-        existingCartItem.quantity += 1;
-        setCartItems([...cartItems]); // Trigger re-render
-      } else {
-        setCartItems([...cartItems, newCartItem]); // Add the new cart item
-      }
-      axios
-        .post("http://localhost:5000/products/cart", {
-          cartItems: [newCartItem],
-          userId: userId,
-        })
-        .then((response) => {
-          console.log(response.data.message);
-        })
-        .catch((error) => {
-          console.error("Error adding cart items:", error.message);
-        });
-      // Make a POST request to add cart items
+      setSearchResults(filteredPlants);
     }
   };
-  useEffect(() => {
-    console.log(cartItems);
-  }, [cartItems]);
 
   return (
-    <section>
-      <header>
-        <nav>
-          <ul className="App-header">
+    <section className="container">
+      <header className="header">
+        <nav className="navbar">
+          <div className="logo">
+            <h1>Herbal Hub</h1>
+          </div>
+          <form className="search-form" onSubmit={handleSearch}>
+            <input
+              type="text"
+              placeholder="Search products"
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
+            />
+            <button type="submit">Search</button>
+          </form>
+          <ul className="nav-links">
             <li>
               <Link to="/">Home</Link>
             </li>
             <li>
-              {token ? (
-                <Link to="/logout">Logout</Link>
-              ) : (
-                <Link to="/login">SignUp/Login</Link>
-              )}
-            </li>
-            <li>
-              <Link to="/products/cart">Cart</Link>
-            </li>
-            <li>
               <Link to="/orders">Orders</Link>
             </li>
+            <li>
+              <Link to="/products/cart">
+                <ShoppingCartIcon />
+              </Link>
+            </li>
+            {token ? (
+              <li>
+                <Link to="/logout">
+                  <LogoutIcon />
+                </Link>
+              </li>
+            ) : (
+              <li>
+                <Link to="/login">SignUp/Login</Link>
+              </li>
+            )}
           </ul>
         </nav>
       </header>
-      <ul>
-        {Object.entries(plants).map(([id, { name, price }]) => (
-          <li key={id}>
-            <Link to={`/products/${id}`}>
-              <h3>{name}</h3>
-            </Link>
-            <p>Price: ${price}</p>
-            <button onClick={() => addToCart(id)}>Add to Cart</button>
-            <button onClick={incquantity}>+</button>{count}<button onClick={decquantity}>-</button>
-          </li>
-        ))}
+      <ul className="product-list">
+        {(searchQuery !== "" ? searchResults : Object.entries(plantsData)).map(
+          ([id, { name, price, url }]) => (
+            <Listproduct
+              key={id}
+            id={id}
+            name={name}
+            price={price}
+            url={url}
+            searchQuery={searchQuery}
+            />
+          )
+        )}
       </ul>
+      
     </section>
   );
 }
 
 export default ProductLists;
+
+
+{/* <li key={id} className="product-card">
+              <img className="plant-img" src={url} alt="plant" />
+              <Link to={`/products/${id}`}>
+                <h3>{name}</h3>
+              </Link>
+              <p className="price">Price: ${price}</p>
+              <div className="quantity-control">
+                <button onClick={() => addToCart(id)}>Add to Cart</button>
+                <button onClick={incQuantity}>+</button>
+                <span className="count">{count}</span>
+                <button onClick={decQuantity}>-</button>
+              </div> 
+</li>*/}

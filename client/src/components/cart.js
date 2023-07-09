@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import {Link} from "react-router-dom";
 import jwt_decode from "jwt-decode";
-
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import LogoutIcon from "@mui/icons-material/Logout";
 function CartPage() {
     const Token = localStorage.getItem('token');
   const decodedToken = jwt_decode(Token);
@@ -32,12 +34,41 @@ function CartPage() {
 
   return (
     <div>
-      <h2>Cart</h2>
+    <header className="header">
+        <nav className="navbar">
+          <div className="logo">
+            <h1>Herbal Hub</h1>
+          </div>
+          <ul className="nav-links">
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+                <Link to="/products">
+                  products
+                </Link>
+              </li>
+            <li>
+              <Link to="/orders">Orders</Link>
+            </li>
+            <li>
+              <Link to="/products/cart">
+                <ShoppingCartIcon />
+              </Link>
+            </li>
+              <li>
+                <Link to="/logout">
+                  <LogoutIcon />
+                </Link>
+              </li>
+          </ul>
+        </nav>
+      </header>
       {cartItems.map((cartItem) => (
-        <div key={cartItem._id}>
-          <h3>{cartItem.name}</h3>
-          <p>Price: ₹{cartItem.price}</p>
-          <p>quantity:{cartItem.quantity}</p>
+        <div className="product-card cart" key={cartItem._id}>
+          <h3 className="plink">{cartItem.name}</h3>
+          <p className="price">Price: ₹{cartItem.price}</p>
+          <p className="plink">quantity:{cartItem.quantity}</p>
         </div>
       ))}
     </div>
