@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LogoutIcon from "@mui/icons-material/Logout";
+import CartItem from "./cartitem";
 function CartPage() {
     const Token = localStorage.getItem('token');
   const decodedToken = jwt_decode(Token);
@@ -65,11 +66,7 @@ function CartPage() {
         </nav>
       </header>
       {cartItems.map((cartItem) => (
-        <div className="product-card cart" key={cartItem._id}>
-          <h3 className="plink">{cartItem.name}</h3>
-          <p className="price">Price: ₹{cartItem.price}</p>
-          <p className="plink">quantity:{cartItem.quantity}</p>
-        </div>
+        <CartItem key={cartItem._id} cartItem={cartItem}/>
       ))}
     </div>
   );

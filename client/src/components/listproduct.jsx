@@ -77,9 +77,10 @@ const Listproduct = ({ id, name, price, url }) => {
       <p className="price">Price: ₹{price}</p>
       <div className="quantity-control">
         <button onClick={() => addToCart(id)}>Add to Cart</button>
-        <button onClick={incQuantity}>+</button>
-        <span className="count">{count}</span>
         <button onClick={decQuantity}>-</button>
+        <span className="count">{count}</span>
+        <button onClick={incQuantity}>+</button>
+        
       </div>
     </li>
   );

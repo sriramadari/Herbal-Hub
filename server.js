@@ -118,6 +118,24 @@ app.post("/products/cart", async (req, res) => {
     return res.status(500).json({ message: "Failed to update cart items" });
   }
 });
+app.post("/cart", async (req, res) => {
+  const { itemid,
+    newQuantity } = req.body;
+  try {
+      const existingCartItem = await CartItem.findOne({ _id:itemid });
+
+      if (existingCartItem) {
+        // Update quantity for existing cart item
+        existingCartItem.quantity= newQuantity;
+        await existingCartItem.save();
+        return res.json({ message: "Cart Quantity updated successfully" });
+      }
+    return res.json({ message: "Cart item not found" });
+  } catch (error) {
+    console.error("Error updating cart items:", error);
+    return res.status(500).json({ message: "Failed to update cart items" });
+  }
+});
 
 
 app.get("/products/cart",cors(),async(req,res)=>{
