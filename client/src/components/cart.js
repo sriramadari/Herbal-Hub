@@ -11,6 +11,9 @@ function CartPage() {
   const userId = decodedToken.userId;
   console.log(userId);
   const [cartItems, setCartItems] = useState([]);
+const [x,setx]=useState(false);
+  
+ 
 
   useEffect(() => {
     const fetchCartData = async () => {
@@ -31,7 +34,38 @@ function CartPage() {
     };
 
     fetchCartData();
-  }, []);
+  }, [x]);
+
+
+  const updateSubtotal = () => {
+    // setCartItems([...cartItems]);
+    // fetchCartData();
+    setx(!x);
+  };
+  
+  const calculateSubtotal = () => {
+    let subtotal = 0;
+    cartItems.forEach((cartItem) => {
+      subtotal += cartItem.price * cartItem.quantity;
+    });
+    return subtotal;
+  };
+  // useEffect(() => {
+ 
+// }, [cartItems]);
+  
+
+  // const handleScroll = () => {
+  //   const cartItemsContainer = document.getElementById("cartitems-container");
+  //   if (cartItemsContainer) {
+  //     const isBottom =
+  //       cartItemsContainer.scrollTop + cartItemsContainer.clientHeight ===
+  //       cartItemsContainer.scrollHeight;
+  //     setIsScrolledToBottom(isBottom);
+  //   }
+  // };
+
+  
 
   return (
     <div>
@@ -65,9 +99,20 @@ function CartPage() {
           </ul>
         </nav>
       </header>
-      {cartItems.map((cartItem) => (
-        <CartItem key={cartItem._id} cartItem={cartItem}/>
-      ))}
+      <div className="cartpage-container">
+        <div  className ="cartitems-container">
+          <div className="cartitems">
+            {cartItems.map((cartItem) => (
+              <CartItem key={cartItem._id} cartItem={cartItem} updateSubtotal={updateSubtotal} />
+            ))}
+          </div>
+        </div>
+        <div className="subtotal-container">
+          <div className="subtotal">
+            Subtotal: ₹{calculateSubtotal()} {/* Display the subtotal price */}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

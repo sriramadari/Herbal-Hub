@@ -7,6 +7,7 @@ import Signupform from "./components/signupform";
 import Loginform from "./components/login";
 import Logout from "./components/logout";
 import CartPage from "./components/cart";
+import Purchase from "./components/purchase";
 
 import { BrowserRouter as Router, Routes, Route,Link} from "react-router-dom";
 
@@ -30,6 +31,8 @@ function App() {
           <Route path="/logout" element={ <Logout />}>
           </Route>  
           <Route path="/signup" element={ <Signupform />}>
+          </Route>
+          <Route path="/purchase" element={ <Purchase/>}>
           </Route>
         </Routes>
         {/* isAuthenticated={token},setAuthentication={token} */}

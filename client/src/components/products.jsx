@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import useAuth from "./auth";
 
 function Products({plants}) {
-  useAuth();
+  // useAuth();
     return (
       <div >
         <Outlet plants={plants}/>

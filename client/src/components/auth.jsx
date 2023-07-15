@@ -7,8 +7,7 @@ const useAuth = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     // Alternatively, retrieve the token from a secure cookie
-
-    if (!token) {
+    if (token) {
       navigate('/products');
     }
   }, [navigate]);
