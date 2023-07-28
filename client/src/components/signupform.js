@@ -1,7 +1,16 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import MuiAlert from "@material-ui/lab/Alert";
+import { CircularProgress } from "@mui/material";
 import "./signup.css";
+import toast, { Toaster } from 'react-hot-toast';
+
+function Alert(props) {
+  return <MuiAlert elevation={6}
+      variant="filled" {...props} />;
+}
+
 function Signupform() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
@@ -25,7 +34,7 @@ const handleOtpChange=(e)=>{
   const handleOtp = async (e) => {
     e.preventDefault();
     if (!username || !email || !phoneNumber || !password) {
-      alert("Please fill in all the required fields.");
+      alert("Please enter all fields");
       return;
     }
     setloading(true);
@@ -36,7 +45,7 @@ const handleOtpChange=(e)=>{
       console.log(response);
       if (response.status===201) {
         console.log(response.data.message.envelope);
-        alert("OTP sent to your email: " + response.data.message.envelope.to[0]);
+        alert("OTP sent to your email: "+response.data.message.envelope.to[0])
         setotpresponse(true);
       } 
       else {
@@ -75,14 +84,14 @@ const handleOtpChange=(e)=>{
             email,
             username,
           });
-          alert("User registered successfully");
+          alert("User Registered Successfully");
           navigate("/login");
         } catch (error) {
           console.error("Error sending success email:", error);
         }
       }
       else{
-        alert("Invalid otp");
+        alert("Invalid otp! try again");
         setotpresponse(false);
       }
     } catch (error) {
@@ -93,6 +102,27 @@ const handleOtpChange=(e)=>{
     setPhoneNumber(e.target.value);
   };
   return (
+    <section>
+    <header className="header">
+        <nav className="navbar">
+          <div className="logo">
+            <h1>Herbal Hub</h1>
+          </div>
+          <ul className="nav-links">
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              
+                <Link to="/login">Login</Link>
+            </li>
+            <li>
+              <Link to="/signup">SignUp</Link>
+            </li>
+          </ul>
+        </nav>
+      </header>
+
     <div className="signup-container">
       <h2>Create Account</h2>
       <form>
@@ -138,7 +168,7 @@ const handleOtpChange=(e)=>{
           />
         </div>
         {!otpresponse?<div className="signup-button-div">
-        {loading?(<div className="loading">loading.....</div>):
+        {loading?(<CircularProgress color="success" />):
         <button onClick={handleOtp} className="signup-button">
             Request OTP
           </button>}
@@ -167,7 +197,9 @@ const handleOtpChange=(e)=>{
         {/*copied from signup-form */}
       </div>
     </div>
+    </section>
   );
 }
 
 export default Signupform;
+

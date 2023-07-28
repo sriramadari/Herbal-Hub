@@ -7,8 +7,8 @@ import Signupform from "./components/signupform";
 import Loginform from "./components/login";
 import Logout from "./components/logout";
 import CartPage from "./components/cart";
-import Purchase from "./components/purchase";
-
+import Orders from "./components/orders";
+import Checkout from "./components/checkout";
 import { BrowserRouter as Router, Routes, Route,Link} from "react-router-dom";
 
 // import RequireAuth from "./components/auth";
@@ -21,18 +21,23 @@ function App() {
         <Routes>
           <Route path="/" element={<Homepage />}></Route>
           <Route path="/products" element={<Products/>}>
-             <Route index element={<Productlists/>} />
+
+          <Route index element={<Productlists/>} />
              <Route path=":id" element={<Product />} />
-             <Route path="cart" element={ <CartPage />}/>
+             <Route path="cart" element={ <CartPage />}/>        
+             <Route path="checkout" element={<Checkout />} />
+        
+             <Route path="orders" element={ <Orders />}/>
+             
           </Route>
+             
+
           <Route path="/contact" element={<Homepage />}></Route>
            <Route path="/login" element={ <Loginform  />}>
           </Route>  
           <Route path="/logout" element={ <Logout />}>
           </Route>  
           <Route path="/signup" element={ <Signupform />}>
-          </Route>
-          <Route path="/purchase" element={ <Purchase/>}>
           </Route>
         </Routes>
         {/* isAuthenticated={token},setAuthentication={token} */}

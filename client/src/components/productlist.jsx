@@ -8,25 +8,15 @@ import "./productlist.css";
 import Listproduct from "./listproduct";
 import plantsData from "./plantsdata";
 function ProductLists() {
-  // const [cartItems, setCartItems] = useState([]);
+ 
   const token = localStorage.getItem("token");
   // const decodedToken = jwt_decode(token);
   // const userId = decodedToken.userId;
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  // const [count, setCount] = useState(0);
-  // const incQuantity = () => {
-  //   setCount(count + 1);
-  // };
-
-  // const decQuantity = () => {
-  //   setCount(count - 1);
-  // };
-  
-
+ 
   const handleSearch = (event) => {
-    event.preventDefault(); // Prevent the form from submitting
-    // Perform search logic here
+    event.preventDefault(); 
     const query = searchQuery.trim().toLowerCase();
 
     if (query === "") {
@@ -60,7 +50,7 @@ function ProductLists() {
               <Link to="/">Home</Link>
             </li>
             <li>
-              <Link to="/orders">Orders</Link>
+              <Link to="/products/orders">Orders</Link>
             </li>
             <li>
               <Link to="/products/cart">
@@ -103,16 +93,3 @@ function ProductLists() {
 export default ProductLists;
 
 
-{/* <li key={id} className="product-card">
-              <img className="plant-img" src={url} alt="plant" />
-              <Link to={`/products/${id}`}>
-                <h3>{name}</h3>
-              </Link>
-              <p className="price">Price: ${price}</p>
-              <div className="quantity-control">
-                <button onClick={() => addToCart(id)}>Add to Cart</button>
-                <button onClick={incQuantity}>+</button>
-                <span className="count">{count}</span>
-                <button onClick={decQuantity}>-</button>
-              </div> 
-</li>*/}

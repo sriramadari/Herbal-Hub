@@ -58,6 +58,9 @@ function CartItem({cartItem,updateSubtotal}){
 if(isDeleted){
   return null;
 }
+if (!cartItem) {
+  return null; 
+}
     return(
       <div className="product-card" key={cartItem._id}>
       <div className="top-row">

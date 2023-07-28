@@ -1,34 +1,25 @@
 import React, { useState } from "react";
-import { useParams ,Link} from "react-router-dom";
-import plantsData from "./plantsdata";
+import { Link} from "react-router-dom";
+
 import jwt_decode from "jwt-decode";
 import axios from "axios";
 import "./product.css";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LogoutIcon from "@mui/icons-material/Logout";
-function Product() {
-  const { id } = useParams();
-  
-  const product = plantsData[id];
+function Checkout() {
   const token = localStorage.getItem("token");
   const decodedToken = jwt_decode(token);
   const userId = decodedToken.userId;
-  const [quantity, setQuantity] = useState(1);
   const [deliveryDetails, setDeliveryDetails] = useState({
     name:"",
     address: "",
     city: "",
-    state: "", // Initialize with empty string
+    state: "",  
     postalCode: "",
     phonenumber:"",
     emailid:"",
   });
-
-  const { name, url, description ,price} = product;
-
-  const handleQuantityChange = (e) => {
-    setQuantity(Number(e.target.value));
-  };
+  
 
   const handleDeliveryDetailsChange = (e) => {
     setDeliveryDetails({
@@ -39,13 +30,10 @@ function Product() {
 
   const handleBuyProduct = () => {
    
-    axios.post("http://localhost:5000/orders", 
-   { productid:id,
-    productname:name,
-    quantity:quantity
-    ,deliveryDetails: deliveryDetails,
-    userId: userId,
-    price:price,
+    axios.post("http://localhost:5000/checkout/orders", 
+   {
+    deliveryDetails: deliveryDetails,
+    userId: userId
   })
       .then(response => {
         // Handle the response from the server, e.g., show a success message
@@ -58,10 +46,6 @@ function Product() {
         alert("Error placing order. Please try again.");
       });
   };
-
-  if (!product) {
-    return <span>The product you've requested doesn't exist.</span>;
-  }
     return (
       <section className="container">
       <header className="header">
@@ -95,13 +79,8 @@ function Product() {
           </ul>
         </nav>
       </header>
-      <div className="product-container">
-        <div className="product-details">
-          <h3>{name}</h3>
-          <img src={url} alt="plant" className="image" />
-          <p className="description">{description}</p>
-        </div>
-    
+      
+      <div className="product-container">    
         <div className="delivery-details">
         <div className="input-container">
             <label htmlFor="name" className="label">
@@ -116,19 +95,7 @@ function Product() {
               className="input"
             />
           </div>
-          <div className="input-container">
-            <label htmlFor="quantity" className="label">
-              Quantity:
-            </label>
-            <input
-  type="number"
-  id="quantity"
-  value={quantity || ""}
-  onChange={handleQuantityChange}
-  className="input"
-/>
-          </div>
-    
+
           <div className="input-container">
             <label htmlFor="address" className="label">
               Address:
@@ -170,6 +137,7 @@ function Product() {
               className="input"
             />
           </div>
+    
           <div className="input-container">
             <label htmlFor="postalCode" className="label">
               Postal Code:
@@ -219,4 +187,4 @@ function Product() {
     );
 }
 
-export default Product;
+export default Checkout;

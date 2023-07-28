@@ -1,59 +1,36 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import {Link,useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LogoutIcon from "@mui/icons-material/Logout";
-import CartItem from "./cartitem";
-function CartPage() {
+import "./orders.css"
+function Orders() {
     const Token = localStorage.getItem('token');
   const decodedToken = jwt_decode(Token);
   const userId = decodedToken.userId;
-  console.log(userId);
-  const [cartItems, setCartItems] = useState([]);
-const [x,setx]=useState(false);
-  
-const navigate = useNavigate();
+  const [orders, setOrders] = useState([]);  
 
   useEffect(() => {
     const fetchCartData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/products/cart"
+          "http://localhost:5000/product/orders"
           ,{
             params: {
               ID: userId
           }
         }
         );
-        setCartItems(response.data.cartItems);
-        console.log(response.data.cartItems);
+        setOrders(response.data.orders);
+        console.log(response.data.orders);
       } catch (error) {
         console.error("Error retrieving cart data:", error.message);
       }
     };
 
     fetchCartData();
-  }, [x]);
-
-
-  const updateSubtotal = () => {
-    // setCartItems([...cartItems]);
-    // fetchCartData();
-    setx(!x);
-  };
-  const handlecheckout=()=>{
-    navigate('/products/checkout');
-  }
-  
-  const calculateSubtotal = () => {
-    let subtotal = 0;
-    cartItems.forEach((cartItem) => {
-      subtotal += cartItem.price * cartItem.quantity;
-    });
-    return subtotal;
-  };
-
+  }, []);
   return (
     <div>
     <header className="header">
@@ -86,29 +63,24 @@ const navigate = useNavigate();
           </ul>
         </nav>
       </header>
-      <div className="cartpage-container">
-        <div  className ="cartitems-container">
-          <div className="cartitems">
-          {cartItems.length > 0 ? (
-              cartItems.map((cartItem) => (
-                <CartItem key={cartItem._id} cartItem={cartItem} updateSubtotal={updateSubtotal} />
-              ))
-            ) : (
-              <p>No items in the cart</p>
-            )}
-          </div>
+      <div className="orders-container">
+      <h2>My Orders</h2>
+      {orders.map((order) => (
+        <div key={order._id} className="order-card">
+          <h3>ProductName:{order.productname}</h3>
+          <p>Quantity: {order.quantity}</p>
+          <p>Price per Item: ₹{order.price}</p>
+          <p>Delivery address:{order.deliveryDetails.address
+},{order.deliveryDetails.city}</p>
+          <p>Order ID: {order._id}</p>
+          <p>Delivery by: {order.estimatedDelivery}</p>
+          <p>Total Amount:₹{(order.quantity)*(order.price)}</p>
         </div>
-        <div className="subtotal-container">
-          <div className="subtotal">
-            Subtotal: ₹{calculateSubtotal()} {/* Display the subtotal price */}
-          </div>
-          <div className="subtotal">
-            <button onClick={handlecheckout}>Checkout</button>
-          </div>
-        </div>
-      </div>
+      ))}
+    </div>
+     
     </div>
   );
 }
 
-export default CartPage;
+export default Orders;

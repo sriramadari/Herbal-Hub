@@ -30,12 +30,15 @@ function Loginform(){
             setemail('');
             setpassword('');
             seterror('');
+            if(response.data.token){
             localStorage.setItem('token', response.data.token);
-            // setAuthentication(true);
+            console.log(response.data.token);
             console.log(response.data.message);
-            console.log(response.data.token);// Response from the backend
             navigate('/');
-            // Optionally, you can redirect the user to a different page upon successful signup
+            }
+            else{
+              alert(response.data.message+" or incorrect password")
+            }
           } catch (error) {
             seterror(error.response.data.message);
           }
@@ -44,6 +47,26 @@ function Loginform(){
           setShowPassword(!showPassword);
         };
     return(
+      <section>
+      <header className="header">
+          <nav className="navbar">
+            <div className="logo">
+              <h1>Herbal Hub</h1>
+            </div>
+            <ul className="nav-links">
+              <li>
+                <Link to="/">Home</Link>
+              </li>
+              <li>
+                
+                  <Link to="/login">Login</Link>
+              </li>
+              <li>
+                <Link to="/signup">SignUp</Link>
+              </li>
+            </ul>
+          </nav>
+        </header>
       <div className="login-container">
       <h2>Login</h2>
       <form onSubmit={handlesubmit}>
@@ -85,6 +108,7 @@ function Loginform(){
       <Link to="/signup" className="signup-link">Create an account</Link>
       </div>
     </div>
+    </section>
     )
 }
 

@@ -8,7 +8,9 @@ const nodemailer = require('nodemailer');
 const NodeCache = require('node-cache');
 const cache = new NodeCache();
 const crypto = require('crypto');
+// const orderRoutes = require("./routes/orders.js");
 const app = express();
+const Order = require("./models/order.js");
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 const port = process.env.PORT || 5000;
@@ -79,6 +81,179 @@ const CartItem = mongoose.model("CartItem", cartItemSchema);
 
 app.get('/',cors(), (req, res) => {
   res.send('Hello, world!');
+});
+
+
+// app.use("/orders", orderRoutes);
+app.post("/checkout/orders",cors(),async (req,res)=>{
+  try{
+    const {deliveryDetails,userId}=req.body;
+    var totalAmount=0;
+    const orders = [];
+    const orderPlacedDate = new Date();
+    const estimatedDeliveryDate = new Date(orderPlacedDate);
+ estimatedDeliveryDate.setDate(orderPlacedDate.getDate() + 7);
+    const cartitems=await CartItem.find({user:userId});
+    if(!cartitems){
+      return res.status(404).json({ message: "Cart items not found" });
+    }
+    await Promise.all(cartitems.map(async (item) => {
+
+      totalAmount+=(item.quantity)*(item.price); 
+    const neworder = new Order({
+      productId:item.id,
+      productname:item.name,
+      quantity: item.quantity,
+      deliveryDetails: deliveryDetails,
+      userId: userId,
+      price:item.price,
+      estimatedDelivery: estimatedDeliveryDate,
+      orderdate: orderPlacedDate
+    });
+    // Save the order to the database
+    const savedOrder = await neworder.save();
+    orders.push(savedOrder);
+    
+    }))      
+    const mailOptions = {
+      from: "lakshmisriramadari1427@gmail.com",
+      to: deliveryDetails.emailid,
+      subject: "Herbal-Hub Order confirmation🌱",
+      html: `
+        <html>
+        <body style="font-family: Arial, sans-serif; line-height: 1.6;>
+          <h1>Dear ${deliveryDetails.name} 👋,</h1>
+          <p>Thank you for placing an order on Herbal Hub! We're excited to fulfill your order and provide you with a delightful herbal shopping experience.</p>
+          <h3>Order Details:</h3>
+          <p><strong>Order Date:</strong> ${orderPlacedDate}</p>
+          <p><strong>Estimated Delivery Date:</strong> ${estimatedDeliveryDate}</p>
+          <h3>Products Ordered:</h3>
+          <ul style="list-style-type: none; padding: 0;">
+            ${orders
+              .map(
+                (item, index) =>
+                  `<li style="margin-bottom: 10px;">
+                    ${index + 1}. ${item.productname}<br />
+                    Quantity: ${item.quantity}<br />
+                    Price per item: ₹${item.price}
+                  </li>`
+              )
+              .join("\n")}
+          </ul>
+          <h2>Total Amount: ₹${totalAmount}</h2>
+          <p>If you have any questions or need assistance, don't hesitate to reach out to our support team.</p>
+          <p>Once again, thank you for shopping with Herbal Hub! We look forward to delivering your order soon.</p>
+          <p>Best regards,</p>
+          <p>The Herbal Hub Team💚</p>
+        </body>
+        </html>
+      `,
+    };    
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error('Error sending email:', error);
+        // Handle any error here
+      } else {
+        console.log('Email sent:', info.response);
+        // Handle success here
+      }
+    });
+
+    await CartItem.deleteMany({ user: userId });
+
+    // Return a success response
+    return res.json({ message: "Order placed successfully" });
+  } catch (error) {
+    console.error("Error placing order:", error);
+    return res.status(500).json({ message: "Failed to place order" });
+  }
+
+})
+
+app.post("/orders",cors(), async (req, res) => {
+  try {
+    const { productid,
+      productname,
+        quantity,
+        deliveryDetails,
+        userId,
+        price
+        } = req.body;
+        const totalAmount=quantity*price;
+    const orderPlacedDate = new Date();
+    const estimatedDeliveryDate = new Date(orderPlacedDate);
+ estimatedDeliveryDate.setDate(orderPlacedDate.getDate() + 7); // Add 7 days
+    const neworder = new Order({
+      productId:productid,
+      productname:productname,
+      quantity: quantity,
+      deliveryDetails: deliveryDetails,
+      userId: userId,
+      price:price,
+      estimatedDelivery: estimatedDeliveryDate,
+      orderdate: orderPlacedDate
+    });
+
+    // Save the order to the database
+    const savedOrder = await neworder.save();
+
+    const mailOptions = {
+      from: "lakshmisriramadari1427@gmail.com",
+      to: deliveryDetails.emailid,
+      subject: "Herbal-Hub Order confirmation 🌱",
+      html: `
+        <html>
+        <body style="font-family: Arial, sans-serif; line-height: 1.6;">
+          <h1>Hi! ${deliveryDetails.name} 👋,</h1>
+          <p>Thank you for placing an order on Herbal Hub! We're excited to fulfill your order and provide you with a delightful herbal shopping experience.</p>
+          <h3>Order Details:</h3>
+          <p><strong>Order Date:</strong> ${orderPlacedDate}</p>
+          <p><strong>Estimated Delivery Date:</strong> ${estimatedDeliveryDate}</p>
+          <h3>Product Details:</h3>
+          <p><strong>Product Name:</strong> ${savedOrder.productname}</p>
+          <p><strong>Quantity:</strong> ${savedOrder.quantity}</p>
+          <p><strong>Price per Product:</strong> ₹${savedOrder.price}</p>
+          <h2>Total Amount: ₹${totalAmount}</h2>
+          <p>If you have any questions or need assistance, don't hesitate to reach out to our support team.</p>
+          <p>Once again, thank you for shopping with Herbal Hub! We look forward to delivering your order soon.</p>
+          <p>Best regards,</p>
+          <p>The Herbal Hub Team💚</p>
+        </body>
+        </html>
+      `,
+    };
+    
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error('Error sending email:', error);
+        // Handle any error here
+      } else {
+        console.log('Email sent:', info.response);
+        // Handle success here
+      }
+    });
+    // Respond with the saved order
+    res.json(savedOrder);
+  } catch (error) {
+    // Handle errors, e.g., send an error response
+    console.error("Error placing order:", error);
+    res.status(500).json({ error: "Error placing order. Please try again." });
+  }
+});
+app.get('/product/orders',cors(),async (req, res) => {
+  const {ID}  = req.query;
+  try {
+    // Retrieve the cart items for the user
+    const userId = new mongoose.Types.ObjectId(ID);
+    const orders = await Order.find({ userId: userId });
+    if (!orders) {
+      return res.status(404).json({ message: "Cart items not found" });
+    }
+    return res.json({orders});
+  } catch (error) {
+    console.error("Error retrieving ordered products", error);
+    return res.status(500).json({ message: "Failed to retrieve ordered items" });
+  }
 });
 
 app.post("/login",cors(),async (req,res)=>{
@@ -238,6 +413,8 @@ app.post("/cart", async (req, res) => {
     return res.status(500).json({ message: "Failed to update cart items" });
   }
 });
+
+
 
 
 app.get("/products/cart",cors(),async(req,res)=>{

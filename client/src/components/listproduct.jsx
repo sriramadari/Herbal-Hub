@@ -9,22 +9,8 @@ const Listproduct = ({ id, name, price, url }) => {
   const token = localStorage.getItem("token");
   const decodedToken = jwt_decode(token);
   const userId = decodedToken.userId;
-  // const [count, setCount] = useState(0);
-
-  // const incQuantity = () => {
-  //   setCount(count + 1);
-  // };
-
-  // const decQuantity = () => {
-  //   if (count > 0) {
-  //     setCount(count - 1);
-  //   }
-  // };
+ 
     const addToCart = (id) => {
-      // if (count === 0) {
-      //   alert("Please select at least one product.");
-      //   return;
-      // }
         const selectedProduct = Object.entries(plantsData).find(
           ([productId]) => productId === id
         );
@@ -36,20 +22,8 @@ const Listproduct = ({ id, name, price, url }) => {
             price: selectedProduct[1].price,
             quantity: 1,
           };
-    
-          // const existingCartItem = cartItems.find(
-          //   (item) => item.id === newCartItem.id
-          // );
-    
-          // if (existingCartItem) {
-          //   existingCartItem.quantity += count;
-          //   setCartItems([...cartItems]);
-          // } else {
             setCartItems([...cartItems, newCartItem]);
-          // }
-    
-          axios
-            .post("http://localhost:5000/products/cart", {
+         axios.post("http://localhost:5000/products/cart", {
               cartItems: [newCartItem],
               userId: userId,
             })
@@ -77,10 +51,8 @@ const Listproduct = ({ id, name, price, url }) => {
       <p className="price">Price: ₹{price}</p>
       <div className="quantity-control">
         <button onClick={() => addToCart(id)}>Add to Cart</button>
-        {/* <button onClick={decQuantity}>-</button> */}
-        {/* <span className="count">{count}</span> */}
-        {/* <button onClick={incQuantity}>+</button> */}
-        <button>BuyNow</button>
+       
+        <button ><Link className="blink" to={`/products/${id}`}>BuyNow</Link></button>
       </div>
     </li>
   );

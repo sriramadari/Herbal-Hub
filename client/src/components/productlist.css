@@ -157,7 +157,10 @@
   font-size: 18px;
   margin: 5px 0;
 }
-
+.blink{
+  color: #fff;
+  text-decoration: none;
+}
 .quantity-container {
   display: flex;
   align-items: center;
