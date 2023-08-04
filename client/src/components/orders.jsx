@@ -5,6 +5,9 @@ import jwt_decode from "jwt-decode";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LogoutIcon from "@mui/icons-material/Logout";
 import "./orders.css"
+import "./hompage.css"
+import plantsData from "./plantsdata";
+import Orderitem from "./orderitem";
 function Orders() {
     const Token = localStorage.getItem('token');
   const decodedToken = jwt_decode(Token);
@@ -32,7 +35,7 @@ function Orders() {
     fetchCartData();
   }, []);
   return (
-    <div>
+    <>
     <header className="header">
         <nav className="navbar">
           <div className="logo">
@@ -66,20 +69,24 @@ function Orders() {
       <div className="orders-container">
       <h2>My Orders</h2>
       {orders.map((order) => (
-        <div key={order._id} className="order-card">
-          <h3>ProductName:{order.productname}</h3>
-          <p>Quantity: {order.quantity}</p>
-          <p>Price per Item: ₹{order.price}</p>
-          <p>Delivery address:{order.deliveryDetails.address
-},{order.deliveryDetails.city}</p>
-          <p>Order ID: {order._id}</p>
-          <p>Delivery by: {order.estimatedDelivery}</p>
-          <p>Total Amount:₹{(order.quantity)*(order.price)}</p>
-        </div>
+        <Orderitem key={order._id} order={order} plantsData={plantsData} />
       ))}
     </div>
-     
-    </div>
+    <footer>
+      <ul className="nav-links">
+        <li>
+          <Link to="/about">About Us</Link>
+        </li>
+        <li>
+          <Link to="/contact">Contact Us</Link>
+        </li>
+        <li>
+        © 2023 Herbal Hub, Inc.
+        </li>
+        
+        </ul>
+      </footer>
+    </>
   );
 }
 

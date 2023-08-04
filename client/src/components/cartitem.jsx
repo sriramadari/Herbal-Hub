@@ -2,7 +2,13 @@ import React,{useState} from "react";
 import axios from "axios";
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-function CartItem({cartItem,updateSubtotal}){
+import plantsData from "./plantsdata";
+function CartItem({cartItem,updateSubtotal,pid}){
+  const plantid=pid;
+  const selectedProduct = Object.entries(plantsData).find(
+    ([productId]) => productId === plantid
+  );
+  console.log(selectedProduct);
     const [count, setCount] = useState(cartItem.quantity);
     const [error,seterror]=useState();
     const itemid=cartItem._id;
@@ -62,8 +68,9 @@ if (!cartItem) {
   return null; 
 }
     return(
-      <div className="product-card" key={cartItem._id}>
+      <div className="productcard" key={cartItem._id}>
       <div className="top-row">
+      <img className="plantimg" src={selectedProduct[1].url} alt="plant" />
         <h3 className="plink">{cartItem.name}</h3>
         <IconButton className="delete-button" onClick={deleteitem} aria-label="delete">
           <DeleteIcon />

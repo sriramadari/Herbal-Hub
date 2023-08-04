@@ -4,7 +4,7 @@ import axios from "axios";
 import MuiAlert from "@material-ui/lab/Alert";
 import { CircularProgress } from "@mui/material";
 import "./signup.css";
-import toast, { Toaster } from 'react-hot-toast';
+
 
 function Alert(props) {
   return <MuiAlert elevation={6}
@@ -102,7 +102,7 @@ const handleOtpChange=(e)=>{
     setPhoneNumber(e.target.value);
   };
   return (
-    <section>
+    <>
     <header className="header">
         <nav className="navbar">
           <div className="logo">
@@ -197,7 +197,21 @@ const handleOtpChange=(e)=>{
         {/*copied from signup-form */}
       </div>
     </div>
-    </section>
+    <footer>
+      <ul className="nav-links">
+        <li>
+          <Link to="/about">About Us</Link>
+        </li>
+        <li>
+          <Link to="/contact">Contact Us</Link>
+        </li>
+        <li>
+        © 2023 Herbal Hub, Inc.
+        </li>
+        
+        </ul>
+      </footer>
+    </>
   );
 }
 

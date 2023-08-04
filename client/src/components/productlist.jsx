@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LogoutIcon from "@mui/icons-material/Logout";
 import "./productlist.css";
+import "./hompage.css"
 import Listproduct from "./listproduct";
 import plantsData from "./plantsdata";
 function ProductLists() {
@@ -30,7 +31,7 @@ function ProductLists() {
   };
 
   return (
-    <section className="container">
+    <>
       <header className="header">
         <nav className="navbar">
           <div className="logo">
@@ -85,8 +86,21 @@ function ProductLists() {
           )
         )}
       </ul>
-      
-    </section>
+      <footer>
+      <ul className="nav-links">
+        <li>
+          <Link to="/about">About Us</Link>
+        </li>
+        <li>
+          <Link to="/contact">Contact Us</Link>
+        </li>
+        <li>
+        © 2023 Herbal Hub, Inc.
+        </li>
+        
+        </ul>
+      </footer>
+    </>
   );
 }
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import "./hompage.css";
 import PersonIcon from "@mui/icons-material/Person";
@@ -14,11 +14,12 @@ const Homepage = () => {
   }
 
   return (
-    <div className="container">
+    <>
       <header className="header">
         <nav className="navbar">
           <div className="logo">
             <h1>Herbal Hub</h1>
+            <img src="/images/logo.png" height="60" width="60" />
           </div>
           <ul className="nav-links">
             <li>
@@ -26,67 +27,151 @@ const Homepage = () => {
             </li>
 
             {token ? (
-              <li style={{ display: "flex", alignItems: "center" ,color:"black"}}>
+              <li
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  color: "black",
+                }}
+              >
                 <PersonIcon />
-                <span style={{ marginLeft: "3px" ,marginTop: "4px" }}>
+                <span style={{ marginLeft: "3px", marginTop: "4px" }}>
                   Hi! {username.toUpperCase()}
                 </span>
               </li>
             ) : null}
-            <li>
+            
               {token ? (
-                <Link to="/logout">Logout</Link>
+                <li><Link to="/logout">Logout</Link></li>
               ) : (
-                <Link to="/login">Login</Link>
+                <>
+                  <li><Link to="/login">Login</Link></li>
+                  <li>
+                    <Link to="/signup">SignUp</Link>
+                  </li>
+                </>
               )}
-            </li>
-            <li>
-              <Link to="/signup">SignUp</Link>
-            </li>
+            
           </ul>
         </nav>
       </header>
 
-      <div className="content">
-        <div className="welcome">
-          <h2>
-            Welcome to HERBAL HUB, your one-stop destination for all your herbal
-            plant needs!
-          </h2>
+      <section className="home" id="Home">
+        <div className="content">
+          <span>
+            <h2>Welcome to HERBAL HUB</h2>
+          </span>
+          <h3>Your one-stop destination for all your herbal plant needs!</h3>
+          <div className="welcomepara">
+            <p>
+              At Herbal Hub, we believe in the power of nature to enhance our
+              well-being and bring harmony to our lives. We offer a wide
+              selection of premium quality herbal plants that are carefully
+              sourced and nurtured to ensure their vitality and effectiveness.
+            </p>
+          </div>
+          <div className="link">
+            {" "}
+            {token ? (
+              <Link to="/products">Shop Now</Link>
+            ) : (
+              <Link to="/login" className="btn">
+                Shop Now
+              </Link>
+            )}
+          </div>
         </div>
-        <div className="welcomepara">
-          <p>
-            At Herbal Hub, we believe in the power of nature to enhance our
-            well-being and bring harmony to our lives. We offer a wide selection
-            of premium quality herbal plants that are carefully sourced and
-            nurtured to ensure their vitality and effectiveness.
-          </p>
+      </section>
+      <section id="Category" className="category">
+        <h1 className="heading">
+          Shop By <span>Category</span>
+        </h1>
+
+        <div className="boxContainer">
+          <div className="box">
+            <h3>Herbal plants</h3>
+            <img
+              src="https://i0.wp.com/gathervictoria.com/wp-content/uploads/2019/09/Recently-Updated1708.jpg?resize=500%2C500&ssl=1"
+              alt=""
+              height="55%"
+            />
+            <Link to="#" className="btn">
+              Shop Now
+            </Link>
+          </div>
+
+          <div className="box">
+            <h3> Herbal Flowers</h3>
+            <img
+              src="https://i.etsystatic.com/10784385/r/il/6d424d/2422755290/il_794xN.2422755290_74i4.jpg"
+              alt=""
+              height="55%"
+            />
+            <Link to="#" className="btn">
+              Shop Now
+            </Link>
+          </div>
+
+          <div className="box">
+            <h3>Herbal Tea</h3>
+            <img
+              src="https://tastylicious.com/wp-content/uploads/2022/04/Chamomile-tea.jpg"
+              alt=""
+              height="55%"
+            />
+            <Link to="#" className="btn">
+              Shop Now
+            </Link>
+          </div>
+
+          <div className="box">
+            <h3>House plants</h3>
+            <img
+              src="https://www.kidsdogardening.com/wp-content/uploads/2019/06/Herbs-Small-Pots-1024x757.jpeg"
+              alt=""
+              height="55%"
+            />
+            <Link to="#" className="btn">
+              Shop Now
+            </Link>
+          </div>
+          <div className="box">
+            <h3>Medicinal</h3>
+            <img
+              src="https://th.bing.com/th/id/R.85cff284db77cd516680bc17fab2c135?rik=%2fYUPZf7eDIJ3DQ&riu=http%3a%2f%2fnicolastocken.com%2fwp-content%2fuploads%2f2014%2f11%2fwpid11980-The-Crest-Garden-in-June-GTHC023-nicola-stocken.jpg&ehk=YfGf9kTTnBFVPRVEeo%2f0IOEeHXGKZo9aMU8Rg74NfPs%3d&risl=&pid=ImgRaw&r=0"
+              alt=""
+              height="55%"
+            />
+            <Link to="#" className="btn">
+              Shop Now
+            </Link>
+          </div>
+          <div className="box">
+            <h3>Rare Herbs</h3>
+            <img
+              src="https://thumbs.dreamstime.com/z/fresh-dried-herb-selection-hemp-paper-background-92765733.jpg"
+              alt=""
+              height="55%"
+            />
+            <Link to="#" className="btn">
+              Shop Now
+            </Link>
+          </div>
         </div>
-        <div className="link">
-          {" "}
-          {token ? (
-            <Link to="/products">Shop Now</Link>
-          ) : (
-            <Link to="/login">Shop Now</Link>
-          )}
-        </div>
-      </div>
+      </section>
 
       <footer>
-      <ul className="nav-links">
-        <li>
-          <Link to="/about">About Us</Link>
-        </li>
-        <li>
-          <Link to="/contact">Contact Us</Link>
-        </li>
-        <li>
-        © 2023 Herbal Hub, Inc.
-        </li>
-        
+        <ul className="nav-links">
+          <li>
+            <Link to="/about">About Us</Link>
+          </li>
+          <li>
+            <Link to="/contact">Contact Us</Link>
+          </li>
+          <li>© 2023 Herbal Hub, Inc.</li>
         </ul>
       </footer>
-    </div>
+    </>
   );
 };
 

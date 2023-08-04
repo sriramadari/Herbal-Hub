@@ -47,7 +47,7 @@ function Loginform(){
           setShowPassword(!showPassword);
         };
     return(
-      <section>
+      <>
       <header className="header">
           <nav className="navbar">
             <div className="logo">
@@ -108,7 +108,7 @@ function Loginform(){
       <Link to="/signup" className="signup-link">Create an account</Link>
       </div>
     </div>
-    </section>
+    </>
     )
 }
 

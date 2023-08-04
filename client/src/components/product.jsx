@@ -6,6 +6,7 @@ import axios from "axios";
 import "./product.css";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LogoutIcon from "@mui/icons-material/Logout";
+import "./hompage.css"
 function Product() {
   const { id } = useParams();
   
@@ -63,7 +64,7 @@ function Product() {
     return <span>The product you've requested doesn't exist.</span>;
   }
     return (
-      <section className="container">
+      <>
       <header className="header">
         <nav className="navbar">
           <div className="logo">
@@ -96,11 +97,12 @@ function Product() {
         </nav>
       </header>
       <div className="product-container">
-        <div className="product-details">
-          <h3>{name}</h3>
-          <img src={url} alt="plant" className="image" />
-          <p className="description">{description}</p>
-        </div>
+      <div className="product-details-card">
+      <img src={url} alt="plant" className="product-image" />
+      <h3 className="product-name">{name}</h3>
+      <p className="product-description">{description}</p>
+      <p className="product-price">₹{price}</p>
+    </div>
     
         <div className="delivery-details">
         <div className="input-container">
@@ -210,12 +212,26 @@ function Product() {
             />
           </div>
     
-          <button onClick={handleBuyProduct} className="button">
+          <button onClick={handleBuyProduct} className="checkoutbutton">
             Place order
           </button>
         </div>
         </div>
-      </section>
+        <footer>
+      <ul className="nav-links">
+        <li>
+          <Link to="/about">About Us</Link>
+        </li>
+        <li>
+          <Link to="/contact">Contact Us</Link>
+        </li>
+        <li>
+        © 2023 Herbal Hub, Inc.
+        </li>
+        
+        </ul>
+      </footer>
+      </>
     );
 }
 

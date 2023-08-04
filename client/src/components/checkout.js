@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { Link} from "react-router-dom";
+import { Link,useNavigate} from "react-router-dom";
 
 import jwt_decode from "jwt-decode";
 import axios from "axios";
 import "./product.css";
+import "./hompage.css";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LogoutIcon from "@mui/icons-material/Logout";
 function Checkout() {
+  const navigate=useNavigate();
   const token = localStorage.getItem("token");
   const decodedToken = jwt_decode(token);
   const userId = decodedToken.userId;
@@ -39,6 +41,7 @@ function Checkout() {
         // Handle the response from the server, e.g., show a success message
         console.log("Order placed successfully:", response.data);
         alert("Order placed successfully!");
+        navigate("/products/cart");
       })
       .catch(error => {
         // Handle errors, e.g., display an error message
@@ -47,7 +50,7 @@ function Checkout() {
       });
   };
     return (
-      <section className="container">
+      <>
       <header className="header">
         <nav className="navbar">
           <div className="logo">
@@ -82,6 +85,7 @@ function Checkout() {
       
       <div className="product-container">    
         <div className="delivery-details">
+        <h1>Enter Delivery Details:</h1>
         <div className="input-container">
             <label htmlFor="name" className="label">
               Name:
@@ -178,12 +182,26 @@ function Checkout() {
             />
           </div>
     
-          <button onClick={handleBuyProduct} className="button">
+          <button onClick={handleBuyProduct} className="checkoutbutton">
             Place order
           </button>
         </div>
         </div>
-      </section>
+        <footer>
+      <ul className="nav-links">
+        <li>
+          <Link to="/about">About Us</Link>
+        </li>
+        <li>
+          <Link to="/contact">Contact Us</Link>
+        </li>
+        <li>
+        © 2023 Herbal Hub, Inc.
+        </li>
+        
+        </ul>
+      </footer>
+      </>
     );
 }
 

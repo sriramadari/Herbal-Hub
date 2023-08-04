@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {Link,useNavigate} from "react-router-dom";
 import jwt_decode from "jwt-decode";
+import "./cart.css"
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LogoutIcon from "@mui/icons-material/Logout";
 import CartItem from "./cartitem";
@@ -55,7 +56,7 @@ const navigate = useNavigate();
   };
 
   return (
-    <div>
+    <>
     <header className="header">
         <nav className="navbar">
           <div className="logo">
@@ -91,7 +92,7 @@ const navigate = useNavigate();
           <div className="cartitems">
           {cartItems.length > 0 ? (
               cartItems.map((cartItem) => (
-                <CartItem key={cartItem._id} cartItem={cartItem} updateSubtotal={updateSubtotal} />
+                <CartItem key={cartItem._id} cartItem={cartItem} updateSubtotal={updateSubtotal} pid={cartItem.id}/>
               ))
             ) : (
               <p>No items in the cart</p>
@@ -99,15 +100,18 @@ const navigate = useNavigate();
           </div>
         </div>
         <div className="subtotal-container">
+        <div className="subtotal">
+        Total Items: {cartItems.length}
+        </div>
           <div className="subtotal">
             Subtotal: ₹{calculateSubtotal()} {/* Display the subtotal price */}
           </div>
           <div className="subtotal">
-            <button onClick={handlecheckout}>Checkout</button>
+            <button className="checkout-button" onClick={handlecheckout}>Checkout</button>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
