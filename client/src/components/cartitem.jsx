@@ -16,7 +16,7 @@ function CartItem({cartItem,updateSubtotal,pid}){
   const incQuantity = async () => {
     try {
         var newQuantity=count+1;
-        const response = await axios.post('http://localhost:5000/cart', {
+        const response = await axios.post('https://herbalhub-m6r6.onrender.com/cart', {
             itemid,
           newQuantity
         });
@@ -35,7 +35,7 @@ function CartItem({cartItem,updateSubtotal,pid}){
     if (count > 1) {
         try {
             var newQuantity=count-1;
-            const response = await axios.post('http://localhost:5000/cart', {
+            const response = await axios.post('https://herbalhub-m6r6.onrender.com/cart', {
                 itemid,
             newQuantity
             });
@@ -52,7 +52,7 @@ function CartItem({cartItem,updateSubtotal,pid}){
 
   const deleteitem=async()=>{
     try {
-      const response = await axios.post('http://localhost:5000/delete', {
+      const response = await axios.post('https://herbalhub-m6r6.onrender.com/delete', {
           itemid
       });
       setIsDeleted(true);

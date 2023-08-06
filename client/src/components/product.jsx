@@ -40,7 +40,7 @@ function Product() {
 
   const handleBuyProduct = () => {
    
-    axios.post("http://localhost:5000/orders", 
+    axios.post("https://herbalhub-m6r6.onrender.com/orders", 
    { productid:id,
     productname:name,
     quantity:quantity

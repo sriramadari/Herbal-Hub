@@ -32,7 +32,7 @@ function Checkout() {
 
   const handleBuyProduct = () => {
    
-    axios.post("http://localhost:5000/checkout/orders", 
+    axios.post("https://herbalhub-m6r6.onrender.com/checkout/orders", 
    {
     deliveryDetails: deliveryDetails,
     userId: userId
