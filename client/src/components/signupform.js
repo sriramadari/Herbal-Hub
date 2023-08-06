@@ -1,15 +1,11 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import MuiAlert from "@material-ui/lab/Alert";
 import { CircularProgress } from "@mui/material";
 import "./signup.css";
 
 
-function Alert(props) {
-  return <MuiAlert elevation={6}
-      variant="filled" {...props} />;
-}
+
 
 function Signupform() {
   const navigate = useNavigate();
