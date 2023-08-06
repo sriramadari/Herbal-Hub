@@ -121,14 +121,8 @@ app.post("/checkout/orders",cors(),async (req,res)=>{
       subject: "Herbal-Hub Order confirmation🌱",
       html: `
         <html>
-        <body style="font-family: Arial, sans-serif; line-height: 1.6;>
-          <h1>Dear ${deliveryDetails.name} 👋,</h1>
-          <p>Thank you for placing an order on Herbal Hub! We're excited to fulfill your order and provide you with a delightful herbal shopping experience.</p>
-          <h3>Order Details:</h3>
-          <p><strong>Order Date:</strong> ${orderPlacedDate}</p>
-          <p><strong>Estimated Delivery Date:</strong> ${estimatedDeliveryDate}</p>
-          <h3>Products Ordered:</h3>
-          <ul style="list-style-type: none; padding: 0;">
+        <body><h1>Dear ${deliveryDetails.name} 👋,</h1><p>Thank you for placing an order on Herbal Hub! We're excited to fulfill your order and provide you with a delightful herbal shopping experience.</p><h3>Order Details:</h3>
+<p><strong>Order Date:</strong> ${orderPlacedDate}</p><p><strong>Estimated Delivery Date:</strong> ${estimatedDeliveryDate}</p><h3>Products Ordered:</h3><ul style="list-style-type: none; padding: 0;">
             ${orders
               .map(
                 (item, index) =>
