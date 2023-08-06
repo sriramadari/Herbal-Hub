@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const secret=process.env.SECRET;
+const path=require('path');
 const nodemailer = require('nodemailer');
 const NodeCache = require('node-cache');
 const cache = new NodeCache();
@@ -15,7 +16,6 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors(
 ));
-const port = process.env.PORT || 5000;
 app.use(express.static("public"));
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
@@ -81,10 +81,6 @@ const cartItemSchema = new mongoose.Schema({
 });
 
 const CartItem = mongoose.model("CartItem", cartItemSchema);
-
-app.get('/',cors(), (req, res) => {
-  res.send('Hello, world!');
-});
 
 
 // app.use("/orders", orderRoutes);
@@ -440,36 +436,20 @@ app.post("/delete",cors(),async(req,res)=>{
     return res.status(500).json({ message: "Failed to update cart items" });
   }
 })
+
+//serving the frontend
+app.use(express.static(path.join(__dirname,"./client/build")));
+
+app.get('*',cors(), (req, res) => {
+  res.sendFile(path.join(__dirname,"./client/build/index.html"));
+});
+
+
 // Start the server
+const port = process.env.PORT || 5000;
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
 
-// const existingCartItem = user.cart.find((item) => item.id === cartItems.id);
-
-    // // if (existingCartItem) {
-    //   existingCartItem.quantity += cartItems.quantity;
-    //   const newQuantity=existingCartItem.quantity;
-      // User.findOneAndUpdate(
-      //   { 'cart.id': cartItems.id ,'_id':userId},
-      //   { $set: { 'cart.$.quantity': 3 } },
-      //   { new: true },
-      //   (err, updatedUser) => {
-      //     if (err) {
-      //       console.error('Error updating cart item quantity:', err);
-      //       // Handle the error appropriately
-      //     } else {
-      //       if (!updatedUser) {
-      //         console.log('Cart item not found');
-      //         // Handle the case when the cart item is not found
-      //       } else {
-      //         console.log('Cart item quantity updated successfully');
-      //         // Handle the success case
-      //       }
-      //     }
-      //   }
-      // );
-    // } else {
-    //   // Add the new cart item if it doesn't exist
