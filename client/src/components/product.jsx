@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useParams ,Link} from "react-router-dom";
+import { useParams ,Link,useNavigate} from "react-router-dom";
 import plantsData from "./plantsdata";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
@@ -9,7 +9,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import "./hompage.css"
 function Product() {
   const { id } = useParams();
-  
+  const navigate=useNavigate();
   const product = plantsData[id];
   const token = localStorage.getItem("token");
   const decodedToken = jwt_decode(token);
@@ -52,6 +52,7 @@ function Product() {
         // Handle the response from the server, e.g., show a success message
         console.log("Order placed successfully:", response.data);
         alert("Order placed successfully!");
+        navigate("/products")
       })
       .catch(error => {
         // Handle errors, e.g., display an error message

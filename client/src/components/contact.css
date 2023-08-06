@@ -1,0 +1,28 @@
+
+.contact form {
+    border: 0.1rem solid rgba(0, 0, 0, 0.2);
+    text-align: center;
+    padding: 2rem;
+  }
+  .contact form .inputBox {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    color: bisque;
+  }
+  .contact form input,
+  textarea {
+    padding: 1rem;
+    font-size: 1.7rem;
+    background: #f7f7f7;
+    text-transform: none;
+    margin: 1rem 0;
+    width: 49%;
+    border: 0.1rem solid rgba(0, 0, 0, 0.3);
+  }
+  .contact textarea {
+    width: 100%;
+    resize: none;
+    height: 17rem;
+  }
+  

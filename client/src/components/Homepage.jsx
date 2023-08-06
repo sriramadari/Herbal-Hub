@@ -3,9 +3,12 @@ import { Link } from "react-router-dom";
 import "./hompage.css";
 import PersonIcon from "@mui/icons-material/Person";
 import jwt_decode from "jwt-decode";
+import Carousel from 'react-bootstrap/Carousel';
+
 // Example data structure for featured or new arrival herbal plants
 
 const Homepage = () => {
+
   const token = !!localStorage.getItem("token");
   if (token) {
     const Token = localStorage.getItem("token");
@@ -73,7 +76,7 @@ const Homepage = () => {
           <div className="link">
             {" "}
             {token ? (
-              <Link to="/products">Shop Now</Link>
+              <Link to="/products" className="btn">Shop Now</Link>
             ) : (
               <Link to="/login" className="btn">
                 Shop Now
@@ -81,6 +84,7 @@ const Homepage = () => {
             )}
           </div>
         </div>
+        
       </section>
       <section id="Category" className="category">
         <h1 className="heading">
@@ -93,11 +97,15 @@ const Homepage = () => {
             <img
               src="https://i0.wp.com/gathervictoria.com/wp-content/uploads/2019/09/Recently-Updated1708.jpg?resize=500%2C500&ssl=1"
               alt=""
-              height="55%"
+              
             />
-            <Link to="#" className="btn">
-              Shop Now
-            </Link>
+            {token ? (
+              <Link to="/products" className="btn">Shop Now</Link>
+            ) : (
+              <Link to="/login" className="btn">
+                Shop Now
+              </Link>
+            )}
           </div>
 
           <div className="box">
@@ -105,11 +113,16 @@ const Homepage = () => {
             <img
               src="https://i.etsystatic.com/10784385/r/il/6d424d/2422755290/il_794xN.2422755290_74i4.jpg"
               alt=""
-              height="55%"
+              
             />
-            <Link to="#" className="btn">
-              Shop Now
-            </Link>
+             {token ? (
+              <Link to="/products" 
+               className="btn">Shop Now</Link>
+            ) : (
+              <Link to="/login" className="btn" >
+                Shop Now
+              </Link>
+            )}
           </div>
 
           <div className="box">
@@ -117,11 +130,15 @@ const Homepage = () => {
             <img
               src="https://tastylicious.com/wp-content/uploads/2022/04/Chamomile-tea.jpg"
               alt=""
-              height="55%"
+             
             />
-            <Link to="#" className="btn">
-              Shop Now
-            </Link>
+           {token ? (
+              <Link to="/products" className="btn">Shop Now</Link>
+            ) : (
+              <Link to="/login" className="btn">
+                Shop Now
+              </Link>
+            )}
           </div>
 
           <div className="box">
@@ -129,37 +146,35 @@ const Homepage = () => {
             <img
               src="https://www.kidsdogardening.com/wp-content/uploads/2019/06/Herbs-Small-Pots-1024x757.jpeg"
               alt=""
-              height="55%"
+              
             />
-            <Link to="#" className="btn">
-              Shop Now
-            </Link>
+          {token ? (
+              <Link to="/products" className="btn">Shop Now</Link>
+            ) : (
+              <Link to="/login" className="btn">
+                Shop Now
+              </Link>
+            )}
           </div>
           <div className="box">
             <h3>Medicinal</h3>
-            <img
+            <img 
               src="https://th.bing.com/th/id/R.85cff284db77cd516680bc17fab2c135?rik=%2fYUPZf7eDIJ3DQ&riu=http%3a%2f%2fnicolastocken.com%2fwp-content%2fuploads%2f2014%2f11%2fwpid11980-The-Crest-Garden-in-June-GTHC023-nicola-stocken.jpg&ehk=YfGf9kTTnBFVPRVEeo%2f0IOEeHXGKZo9aMU8Rg74NfPs%3d&risl=&pid=ImgRaw&r=0"
               alt=""
-              height="55%"
+             
             />
-            <Link to="#" className="btn">
-              Shop Now
-            </Link>
+            {token ? (
+              <Link to="/products" className="btn">Shop Now</Link>
+            ) : (
+              <Link to="/login" className="btn">
+                Shop Now
+              </Link>
+            )}
           </div>
-          <div className="box">
-            <h3>Rare Herbs</h3>
-            <img
-              src="https://thumbs.dreamstime.com/z/fresh-dried-herb-selection-hemp-paper-background-92765733.jpg"
-              alt=""
-              height="55%"
-            />
-            <Link to="#" className="btn">
-              Shop Now
-            </Link>
-          </div>
+          
         </div>
       </section>
-
+    
       <footer>
         <ul className="nav-links">
           <li>
@@ -176,3 +191,16 @@ const Homepage = () => {
 };
 
 export default Homepage;
+// let slideIndex = 0;
+// function showSlides() {
+//   let i;
+//   let slides = document.getElementsByClassName("mySlides");
+//   for (i = 0; i < slides.length; i++) {
+//     slides[i].style.display = "none";
+//   }
+//   slideIndex++;
+//   if (slideIndex > slides.length) {slideIndex = 1}
+//   slides[slideIndex-1].style.display = "block";
+//   setTimeout(showSlides, 2000); // Change image every 2 seconds
+// }
+// showSlides();

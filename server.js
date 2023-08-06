@@ -28,7 +28,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/HerbalHubDB', {
+mongoose.connect('mongodb+srv://lakshmisriramadari1427:FCXHKOTAjaZ03VyG@cluster0.o6g2csb.mongodb.net/HerbalHub?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })

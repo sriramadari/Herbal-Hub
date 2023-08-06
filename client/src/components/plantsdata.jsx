@@ -37,7 +37,7 @@ const plantsData = [
           , {
           id:5,
           name:"Aloevera",
-          url:"https://th.bing.com/th/id/OIP.sre7rTncMYwnd0M9wsY8VAHaGO?pid=ImgDet&rs=1",
+          url:"https://static-bebeautiful-in.unileverservices.com/Try-out-this-aloe-vera-facial-at-home-for-healthy-glowing-skin_mobilehome.jpg",
           description:" Fight Wrinkles Affordably.Healthy Nails Shine.Classic Skin Irritation Remedy.Fight the Most Embarrassing Skin Problems. ",
           price:249
           }

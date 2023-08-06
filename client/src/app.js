@@ -1,4 +1,5 @@
 import React ,{useState} from "react";
+import Contact from "./components/contact";
 import Productlists from "./components/productlist";
 import Homepage from "./components/Homepage";
 import Product from "./components/product";
@@ -30,9 +31,8 @@ function App() {
              <Route path="orders" element={ <Orders />}/>
              
           </Route>
-             
-
-          <Route path="/contact" element={<Homepage />}></Route>
+          
+          <Route path="/contact" element={<Contact />}></Route>
            <Route path="/login" element={ <Loginform  />}>
           </Route>  
           <Route path="/logout" element={ <Logout />}>
