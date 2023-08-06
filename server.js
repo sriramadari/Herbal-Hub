@@ -13,9 +13,7 @@ const app = express();
 const Order = require("./models/order.js");
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(cors({
-  origin:["https://herbalhub-snyx.onrender.com"]
-}
+app.use(cors(
 ));
 const port = process.env.PORT || 5000;
 app.use(express.static("public"));

@@ -20,7 +20,7 @@ const navigate = useNavigate();
     const fetchCartData = async () => {
       try {
         const response = await axios.get(
-          "https://herbalhub-snyx.onrender.com/cart"
+          "http://localhost:5000/products/cart"
           ,{
             params: {
               ID: userId

@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import MuiAlert from "@material-ui/lab/Alert";
 import { CircularProgress } from "@mui/material";
 import "./signup.css";
 
 
-
+function Alert(props) {
+  return <MuiAlert elevation={6}
+      variant="filled" {...props} />;
+}
 
 function Signupform() {
   const navigate = useNavigate();
@@ -35,7 +39,7 @@ const handleOtpChange=(e)=>{
     }
     setloading(true);
     try {
-      const response = await axios.post("https://herbalhub-snyx.onrender.com/otprequest", {
+      const response = await axios.post("http://localhost:5000/otprequest", {
         email
       });
       console.log(response);
@@ -65,7 +69,7 @@ const handleOtpChange=(e)=>{
     e.preventDefault();
 
     try {
-      const response = await axios.post("https://herbalhub-snyx.onrender.com/verify-otp", {
+      const response = await axios.post("http://localhost:5000/verify-otp", {
         username,
         email,
         password,
@@ -76,7 +80,7 @@ const handleOtpChange=(e)=>{
       console.log(response); // Response from the backend
       if (response.status===201) {
         try {
-          await axios.post("http://https://herbalhub-snyx.onrender.com/success", {
+          await axios.post("http://localhost:5000/success", {
             email,
             username,
           });
