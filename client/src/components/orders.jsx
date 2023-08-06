@@ -19,7 +19,7 @@ function Orders() {
     const fetchCartData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/product/orders"
+          "https://herbalhub-snyx.onrender.com/product/orders"
           ,{
             params: {
               ID: userId

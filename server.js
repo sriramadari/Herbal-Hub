@@ -13,6 +13,10 @@ const app = express();
 const Order = require("./models/order.js");
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(cors({
+  origin:["https://herbalhub-snyx.onrender.com"]
+}
+));
 const port = process.env.PORT || 5000;
 app.use(express.static("public"));
 const transporter = nodemailer.createTransport({
@@ -28,7 +32,8 @@ const transporter = nodemailer.createTransport({
   },
 });
 const mongoose = require('mongoose');
-mongoose.connect('mongodb+srv://lakshmisriramadari1427:FCXHKOTAjaZ03VyG@cluster0.o6g2csb.mongodb.net/HerbalHub?retryWrites=true&w=majority', {
+const url=process.env.URI;
+mongoose.connect(url, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
@@ -40,7 +45,7 @@ mongoose.connect('mongodb+srv://lakshmisriramadari1427:FCXHKOTAjaZ03VyG@cluster0
   });
 // Middleware
 app.use(bodyParser.json());
-app.use(cors());
+
 const userSchema =  new mongoose.Schema ({
   email: {
     type: String,

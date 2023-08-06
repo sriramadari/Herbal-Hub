@@ -23,7 +23,7 @@ const Listproduct = ({ id, name, price, url }) => {
             quantity: 1,
           };
             setCartItems([...cartItems, newCartItem]);
-         axios.post("http://localhost:5000/products/cart", {
+         axios.post("https://herbalhub-snyx.onrender.com/cart", {
               cartItems: [newCartItem],
               userId: userId,
             })

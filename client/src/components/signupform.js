@@ -35,7 +35,7 @@ const handleOtpChange=(e)=>{
     }
     setloading(true);
     try {
-      const response = await axios.post("http://localhost:5000/otprequest", {
+      const response = await axios.post("https://herbalhub-snyx.onrender.com/otprequest", {
         email
       });
       console.log(response);
@@ -65,7 +65,7 @@ const handleOtpChange=(e)=>{
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:5000/verify-otp", {
+      const response = await axios.post("https://herbalhub-snyx.onrender.com/verify-otp", {
         username,
         email,
         password,
@@ -76,7 +76,7 @@ const handleOtpChange=(e)=>{
       console.log(response); // Response from the backend
       if (response.status===201) {
         try {
-          await axios.post("http://localhost:5000/success", {
+          await axios.post("http://https://herbalhub-snyx.onrender.com/success", {
             email,
             username,
           });

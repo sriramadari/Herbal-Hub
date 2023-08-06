@@ -23,7 +23,7 @@ function Loginform(){
       const handlesubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/login', {
+            const response = await axios.post('https://herbalhub-snyx.onrender.com/login', {
               email,
               password
             });
