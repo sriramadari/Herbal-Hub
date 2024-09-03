@@ -39,7 +39,7 @@ const Homepage = () => {
               >
                 <PersonIcon />
                 <span style={{ marginLeft: "3px", marginTop: "4px" }}>
-                  Hi! {username.toUpperCase()}
+                  Hi! Hari
                 </span>
               </li>
             ) : null}
@@ -62,12 +62,12 @@ const Homepage = () => {
       <section className="home" id="Home">
         <div className="content">
           <span>
-            <h2>Welcome to HERBAL HUB</h2>
+            <h2>Welcome to Green Amazon <h2>
           </span>
           <h3>Your one-stop destination for all your herbal plant needs!</h3>
           <div className="welcomepara">
             <p>
-              At Herbal Hub, we believe in the power of nature to enhance our
+              At Green Amazon, we believe in the power of nature to enhance our
               well-being and bring harmony to our lives. We offer a wide
               selection of premium quality herbal plants that are carefully
               sourced and nurtured to ensure their vitality and effectiveness.
